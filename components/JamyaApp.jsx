@@ -1,12 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  LayoutDashboard, Users, Wallet, CalendarClock, FileDown, Plus, X,
-  Phone, Trash2, Pencil, Check, Clock, AlertTriangle, ChevronRight,
-  ChevronLeft, MessageCircle, Copy, Printer, Banknote, Landmark,
-  ArrowRightLeft, Menu, CircleDollarSign, Crown, Search
-} from "lucide-react";
+import { LayoutDashboard, Users, Wallet, CalendarClock, FileDown, Plus, X, Phone, Trash2, Pencil, Check, Clock, TriangleAlert as AlertTriangle, ChevronRight, ChevronLeft, MessageCircle, Copy, Printer, Banknote, Landmark, ArrowRightLeft, Menu, CircleDollarSign, Crown, Search } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Base app wrapper class                                             */
@@ -1043,7 +1038,7 @@ function ReportsTab({ assoc, periods }) {
           <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background: C.goldFaint, color: "#7A5A1E" }}><Printer size={20} /></div>
           <div>
             <div className="font-bold text-sm">طباعة / تصدير PDF</div>
-            <div className="text-xs" style={{ color: C.mute }}>استخدم خيار "حفظ كملف PDF" من نافذة الطباعة</div>
+            <div className="text-xs" style={{ color: C.mute }}>استخدم خيار «حفظ كملف PDF» من نافذة الطباعة</div>
           </div>
         </button>
       </div>

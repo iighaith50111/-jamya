@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-tajawal), sans-serif;
+  background-color: #F2F4EF;
+  color: #1E2A24;
+  margin: 0;
+}
+
+.font-cairo {
+  font-family: var(--font-cairo), sans-serif;
+}
+
+.font-tajawal {
+  font-family: var(--font-tajawal), sans-serif;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Tabular numbers for money / counts                                 */
+/* ------------------------------------------------------------------ */
+.tabnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ------------------------------------------------------------------ */
+/*  Stamp / badge circles                                              */
+/* ------------------------------------------------------------------ */
+.stamp {
+  background: #E3EFE8;
+  border: 1px solid #C7DBCF;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Inputs                                                             */
+/* ------------------------------------------------------------------ */
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scrollbar (subtle)                                                 */
+/* ------------------------------------------------------------------ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #C7DBCF;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A9C2B5;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Print styles                                                       */
+/* ------------------------------------------------------------------ */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+  }
+
+  .stamp {
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
