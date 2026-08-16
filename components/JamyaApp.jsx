@@ -34,6 +34,12 @@ const money = (n) =>
 
 const ARABIC_MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 
+function frequencyText(frequency) {
+  return frequency === "weekly"
+    ? { adverb: "أسبوعياً", unit: "الأسابيع", singular: "أسبوعاً", label: "أسبوعي" }
+    : { adverb: "شهرياً", unit: "الأشهر", singular: "شهراً", label: "شهري" };
+}
+
 function addPeriod(dateISO, frequency, n) {
   const d = new Date(dateISO + "T00:00:00");
   if (frequency === "weekly") d.setDate(d.getDate() + 7 * n);
@@ -262,11 +268,11 @@ function AssociationForm({ initial, onSave, onClose }) {
         <TextInput value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="مثال: جمعية الحي" />
       </Field>
       <div className="grid grid-cols-2 gap-3">
-        <Field label="قيمة السهم (شهرياً)">
-          <TextInput type="number" value={form.shareAmount} onChange={(e) => set("shareAmount", e.target.value)} />
+        <Field label={`قيمة السهم (${frequencyText(form.frequency).adverb})`}>
+          <TextInput type="number" min="0" value={form.shareAmount} onChange={(e) => set("shareAmount", e.target.value)} />
         </Field>
-        <Field label="عدد الأشهر/الدورات">
-          <TextInput type="number" value={form.totalShares} onChange={(e) => set("totalShares", e.target.value)} />
+        <Field label={`عدد ${frequencyText(form.frequency).unit}/الدورات`}>
+          <TextInput type="number" min="1" step="1" value={form.totalShares} onChange={(e) => set("totalShares", e.target.value)} />
         </Field>
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -281,7 +287,7 @@ function AssociationForm({ initial, onSave, onClose }) {
         </Field>
       </div>
       <p className="text-xs mb-4" style={{ color: C.faint }}>
-        تاريخ الانتهاء المتوقع: {addPeriod(form.startDate, form.frequency, Number(form.totalShares) - 1)}
+        تاريخ الانتهاء المتوقع: {addPeriod(form.startDate, form.frequency, Math.max(0, Number(form.totalShares) - 1))}
       </p>
       <button
         onClick={submit}
@@ -554,7 +560,7 @@ function AssociationsList({ associations, openAssociation, onCreate, onDelete })
                 <div>
                   <div className="font-bold">{a.name}</div>
                   <div className="text-xs" style={{ color: C.mute }}>
-                    {a.members.length} مشترك · {money(a.shareAmount)} د.أ للسهم · {a.frequency === "monthly" ? "شهري" : "أسبوعي"}
+                    {a.members.length} مشترك · {money(a.shareAmount)} د.أ للسهم {frequencyText(a.frequency).adverb} · {frequencyText(a.frequency).label}
                   </div>
                 </div>
               </div>
@@ -623,7 +629,7 @@ function AssociationDetail({ assoc, updateAssoc, deleteAssoc, back, jumpToPaymen
         <div>
           <h1 className="font-cairo text-2xl font-extrabold">{assoc.name}</h1>
           <p className="text-sm mt-1" style={{ color: C.mute }}>
-            {money(assoc.shareAmount)} د.أ للسهم · {assoc.totalShares} {assoc.frequency === "monthly" ? "شهراً" : "أسبوعاً"} · يبدأ {assoc.startDate}
+            {money(assoc.shareAmount)} د.أ للسهم {frequencyText(assoc.frequency).adverb} · {assoc.totalShares} {frequencyText(assoc.frequency).singular} · يبدأ {assoc.startDate}
           </p>
         </div>
         <div className="flex gap-2">
@@ -959,7 +965,7 @@ function TurnsTab({ assoc, updateAssoc, periods }) {
   return (
     <div>
       <h3 className="font-cairo font-bold text-base mb-1">تعيين أدوار الاستلام</h3>
-      <p className="text-sm mb-4" style={{ color: C.mute }}>حدد المشترك الذي سيقبض دفعة كل شهر/دورة.</p>
+      <p className="text-sm mb-4" style={{ color: C.mute }}>حدد المشترك الذي سيقبض دفعة كل {assoc.frequency === "weekly" ? "أسبوع" : "شهر"} أو دورة.</p>
       <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${C.line}`, background: C.card }}>
         {periods.map((p, i) => {
           const turn = (assoc.turns || []).find((t) => t.period === p);
